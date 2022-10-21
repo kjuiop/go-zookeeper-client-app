@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"go-zookeeper-client-app/api"
 	"log"
 	"os"
+	"runtime"
 )
 
 func main() {
@@ -17,4 +19,11 @@ func main() {
 	}
 	defer a.Close()
 
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
+	gMux := gin.Default()
+	gMux.GET("/api/health-check", a.HealthCheck)
+
+	apiPort := a.GetApiPort()
+	gMux.Run(":" + apiPort)
 }
