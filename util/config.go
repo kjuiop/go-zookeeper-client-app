@@ -6,7 +6,14 @@ import (
 )
 
 type Config struct {
-	ApiPort string `envconfig:"API_PORT" default:"3010"`
+	ApiInfo struct {
+		Port string `envconfig:"ZK_PORT" default:"3010"`
+	}
+
+	LogInfo struct {
+		LogPath  string `envconfig:"ZK_LOG_PATH" default:"log/reporter.log"`
+		LogLevel string `envconfig:"ZK_LOG_LEVEL" default:"debug"`
+	}
 }
 
 func ConfInitialize() (*Config, error) {

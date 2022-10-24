@@ -9,6 +9,7 @@ import (
 
 type API struct {
 	cfg *util.Config
+	log *util.Logger
 }
 
 func NewHandler() (*API, error) {
@@ -22,6 +23,12 @@ func NewHandler() (*API, error) {
 		return nil, err
 	}
 
+	a.log, err = util.LogInitialize(a.cfg.LogInfo.LogPath, a.cfg.LogInfo.LogLevel)
+	if err != nil {
+		log.Println("[NewHandler] failed log initialize : ", err)
+		return nil, err
+	}
+
 	return a, nil
 }
 
@@ -29,7 +36,7 @@ func (a *API) Close() {
 }
 
 func (a *API) GetApiPort() string {
-	return a.cfg.ApiPort
+	return a.cfg.ApiInfo.Port
 }
 
 func (a *API) HealthCheck(gCtx *gin.Context) {
