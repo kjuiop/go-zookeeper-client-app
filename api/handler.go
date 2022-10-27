@@ -8,8 +8,9 @@ import (
 )
 
 type API struct {
-	cfg *util.Config
-	log *util.Logger
+	cfg       *util.Config
+	aLog      *util.Logger
+	zookeeper *util.ZKCon
 }
 
 func NewHandler() (*API, error) {
@@ -23,10 +24,15 @@ func NewHandler() (*API, error) {
 		return nil, err
 	}
 
-	a.log, err = util.LogInitialize(a.cfg.LogInfo.LogPath, a.cfg.LogInfo.LogLevel)
+	a.aLog, err = util.LogInitialize(a.cfg.LogInfo.LogPath, a.cfg.LogInfo.LogLevel)
 	if err != nil {
 		log.Println("[NewHandler] failed log initialize : ", err)
 		return nil, err
+	}
+
+	a.zookeeper, err = util.ZookeeperInitialize(a.cfg)
+	if err != nil {
+		log.Println("[NewHandler] failed zookeeper initialize : ", err)
 	}
 
 	return a, nil

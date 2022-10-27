@@ -15,7 +15,7 @@ type Logger struct {
 	log *logrus.Logger
 }
 
-// Logger Initial
+// LogInitialize Logger Initial
 func LogInitialize(fileName, level string) (*Logger, error) {
 
 	l := new(Logger)
