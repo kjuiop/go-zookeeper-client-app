@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  zookeeper:
+    container_name: local-zookeeper
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2185:2181
+  zk-web:
+    container_name: local-zk-web
+    image: goodguide/zk-web
+    ports:
+      - "8080:8080"
+    environment:
+      - ZKWEB_PORT=8083 #Web port
+      - ZKWEB_CREDENTIALS=admin:hello #Admin 계정:비밀번호
